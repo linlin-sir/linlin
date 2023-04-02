@@ -34,7 +34,21 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+import img from '@/assets/common/head.jpg'
+Vue.directive('fiximg', {
+  // 使用这个指令的元素出现父组件中的时刻被执行
+  inserted(el) {
+    console.log('dom元素被插入到页面里面', el)
+    el.addEventListener('error', () => {
+      // 这里放 @ 字符串也只会当做普通字符串来解析, 并不会作为文件进行加载
+      // el.src = '@/assets/common/head.jpg'
+      el.src = img
+    })
 
+    // 额外处理空的状态
+    el.src = el.src || img
+  }
+})
 new Vue({
   el: '#app',
   router,

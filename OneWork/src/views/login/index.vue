@@ -132,8 +132,8 @@ export default {
               this.$message.success('登陆成功')
               setTimeout(() => {
                 this.$router.push({ path: this.redirect || '/' })
+                this.loading = false
               }, 3000)
-              this.loading = false
             })
             .catch(() => {
               this.loading = false

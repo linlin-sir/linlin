@@ -9,17 +9,19 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+/**
+ *  获取用户的基本资料
+ *
+ * **/
+export function getUserInfo() {
   return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
+    url: '/sys/profile',
+    method: 'post'
   })
 }
-
-export function logout() {
+// 根据 id 获取员工详情
+export function getUserDetailById(id) {
   return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
+    url: `/sys/user/${id}`
   })
 }
