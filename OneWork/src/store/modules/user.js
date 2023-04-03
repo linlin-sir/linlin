@@ -28,12 +28,8 @@ const actions = {
   async login(context, data) {
     const result = await login(data) // 实际上就是一个promise  result就是执行的结果
     // axios默认给数据加了一层data
-    if (result) {
-      // 表示登录接口调用成功 也就是意味着你的用户名和密码是正确的
-      // 现在有用户token
-      // actions 修改state 必须通过mutations
-      context.commit('setToken', result)
-    }
+    context.commit('setToken', result)
+    localStorage.setItem('time', Date.now())
   },
   // 获取用户资料action
   // actions 部分

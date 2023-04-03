@@ -20,7 +20,7 @@
               首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://gitee.com/shuiruohanyu/hrsaas53">
+          <a target="_blank" href="https://flowus.cn/share/2982641c-7d72-4312-9ea8-984e0da73b0c">
             <el-dropdown-item>项目地址</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
