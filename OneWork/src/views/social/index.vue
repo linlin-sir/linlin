@@ -1,5 +1,5 @@
 <template>
- <h2>社保</h2>
+  <h2>社保</h2>
 </template>
 
 <script>

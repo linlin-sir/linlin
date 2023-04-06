@@ -1,5 +1,5 @@
 <template>
- <h2>考勤</h2>
+  <h2>考勤</h2>
 </template>
 
 <script>

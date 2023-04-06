@@ -1,5 +1,5 @@
 <template>
- <h2>审批</h2>
+  <h2>审批</h2>
 </template>
 
 <script>
