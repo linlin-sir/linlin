@@ -32,6 +32,16 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+import Component from '@/components/myComs'
+Vue.use(Component) // 注册自己的插件
+
+// import { formatDate } from '@/filters'
+// Vue.filter('formatDate', formatDate)
+
+import * as MyFilters from '@/filters'
+for (const key in MyFilters) {
+  Vue.filter(key, MyFilters[key])
+}
 
 Vue.config.productionTip = false
 import img from '@/assets/common/head.jpg'

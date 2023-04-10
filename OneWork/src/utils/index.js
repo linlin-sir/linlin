@@ -115,3 +115,14 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+export function listToTree(depts, id) {
+  const res = []
+  depts.forEach(e => {
+    if (e.pid === id) {
+      res.push(e)
+      e.children = listToTree(depts, e.id)
+    }
+  })
+  return res
+}

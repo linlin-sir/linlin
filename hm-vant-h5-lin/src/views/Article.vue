@@ -8,7 +8,6 @@
               color="#000"
               title-inactive-color="#aaa"
               line-width="12px"
-              @click="sortclick"
             >
               <van-tab title="推荐"></van-tab>
               <van-tab title="最新"></van-tab>
@@ -51,13 +50,7 @@ export default {
       pageTotal: 10,
     };
   },
-  // async created() {
-
-  // },
   methods: {
-    sortclick() {
-      
-    },
     async onLoad() {
       if (this.current < this.pageTotal) {
         const res = await getArticlesAPI({ current: this.current++ });
