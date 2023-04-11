@@ -104,7 +104,6 @@ export default {
   methods: {
     // 部门选中后续操作
     deptSelect(data) {
-      console.log(data)
       // 赋值给输入框
       this.formData.departmentName = data.name
       // 树形关闭
