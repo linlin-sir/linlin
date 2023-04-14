@@ -19,10 +19,10 @@
               <el-table-column prop="name" label="角色名称" width="240" />
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作">
-                <template slot-scope="scope">
-                  <el-button size="small" type="success">分配权限</el-button>
-                  <el-button size="small" type="primary" @click="showEdit(scope.row.id)">编辑</el-button>
-                  <el-button size="small" type="danger" @click="deleteRole(scope.row.id)">删除</el-button>
+                <template slot-scope="{row}">
+                  <el-button size="small" type="success" @click="showPermission(row.id)">分配权限</el-button>
+                  <el-button size="small" type="primary" @click="showEdit(row.id)">编辑</el-button>
+                  <el-button size="small" type="danger" @click="deleteRole(row.id)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -86,12 +86,40 @@
           </el-col>
         </el-row>
       </el-dialog>
+
+      <!-- 设置角色权限弹窗 -->
+      <el-dialog title="分配权限" :visible="isShowPermission" @close="btnPermCancel">
+        <!-- data 是数据数组, 套着一堆对象 props 指定要显示的字段,
+        default-expand-all 默认展开所有 -->
+        <el-checkbox-group v-model="checkList">
+          <!-- 本来多个多选框需要自己 v-for 遍历, 但是这里由树形处理了 -->
+
+          <!-- 每个属性节点都是一个多选框 -->
+          <!-- <el-checkbox v-for="item in permList" :key="item.id" :label="item.id">
+            {{ item.name }}
+          </el-checkbox> -->
+          <el-tree :data="permList" default-expand-all>
+            <template v-slot="scope">
+              <el-checkbox :label="scope.data.id">
+                {{ scope.data.name }}
+              </el-checkbox>
+            </template>
+          </el-tree>
+        </el-checkbox-group>
+        <template #footer>
+          <el-button size="small" type="primary" @click="btnPermOK">确定</el-button>
+          <el-button size="small" @click="btnPermCancel">取消</el-button>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList, getRoleDetail, updateRole, addRole, deleteRole } from '@/api/setting.js'
+import { getCompanyInfo, getRoleList, getRoleDetail, updateRole, addRole, deleteRole, assignPerm } from '@/api/setting.js'
+import { mapState } from 'vuex'
+import { getPermissionList } from '@/api/permisson'
+import { listToTree } from '@/utils'
 export default {
   data() {
     return {
@@ -116,12 +144,26 @@ export default {
         // 放置页码及相关数据
         page: 1,
         pagesize: 3
-      }
+      },
+      // 设置权限相关
+      isShowPermission: false,
+      // 所有权限数组
+      permList: [],
+      // 被选中的权限数组
+      checkList: [],
+      // 点击弹窗时储存角色id方便确定的时候复用
+      roleId: ''
     }
+  },
+  computed: {
+    ...mapState('user', ['userInfo'])
   },
   async created() {
     this.form = await getCompanyInfo(this.$store.getters.companyId)
     this.getRoleList()
+    const res = await getPermissionList()
+    console.log('权限列表', res)
+    this.permList = listToTree(res, '0')
   },
   methods: {
     async deleteRole(id) {
@@ -163,7 +205,28 @@ export default {
     currentChange(newPage) {
       this.page.page = newPage
       this.getRoleList()
+    },
+
+    async showPermission(id) {
+      // 获取角色旧数据, 回显多选框
+      const { permIds } = await getRoleDetail(id)
+      this.checkList = permIds
+      this.roleId = id
+      this.isShowPermission = true
+    },
+    async btnPermOK() {
+      await assignPerm({
+        id: this.roleId,
+        permIds: this.checkList
+      })
+      this.$message.success('修改成功')
+      this.isShowPermission = false
+    },
+    btnPermCancel() {
+      this.checkList = []
+      this.isShowPermission = false
     }
+
   }
 }
 </script>

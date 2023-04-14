@@ -34,7 +34,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="showRoleDialog(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="removeEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -51,6 +51,7 @@
       </el-card>
 
       <AddDemployee :is-show-dialog="isShowDialog" />
+      <assign-role ref="assignRole" :is-show-role-dialog="isShowRoleDialog" @closeDialog="isShowRoleDialog = false" />
     </div>
   </div>
 </template>
@@ -61,11 +62,13 @@ import EmployeeEnum from '@/constant/employees'
 import { export_json_to_excel } from '@/vendor/Export2Excel'
 import { formatDate } from '@/filters'
 import AddDemployee from './components/add-employee'
+import AssignRole from './components/assign-role.vue'
 export default {
-  components: { AddDemployee },
+  components: { AddDemployee, AssignRole },
   data() {
     return {
       isShowDialog: false,
+      isShowRoleDialog: false,
 
       pageConfig: {
         page: 1,
@@ -79,6 +82,11 @@ export default {
     this.loadPage()
   },
   methods: {
+    async showRoleDialog(id) {
+      await this.$refs.assignRole.getUserDetail(id)
+      this.isShowRoleDialog = true
+    },
+
     async exportExcel() {
       // 1. 获取所有员工数据
       const { rows } = await getEmployee({

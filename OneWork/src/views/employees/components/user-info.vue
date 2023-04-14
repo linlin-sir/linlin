@@ -18,12 +18,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="入职时间">
-            <el-date-picker
-              v-model="userInfo.timeOfEntry"
-              type="date"
-              class="inputW"
-              value-format="YYYY-MM-DD"
-            />
+            <el-date-picker v-model="userInfo.timeOfEntry" type="date" class="inputW" value-format="YYYY-MM-DD" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -50,12 +45,7 @@
         <el-col :span="12">
           <el-form-item label="聘用形式">
             <el-select v-model="userInfo.formOfEmployment" class="inputW">
-              <el-option
-                v-for="item in EmployeeEnum.hireType"
-                :key="item.id"
-                :label="item.value"
-                :value="item.id"
-              />
+              <el-option v-for="item in EmployeeEnum.hireType" :key="item.id" :label="item.value" :value="item.id" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -151,12 +141,7 @@
         </el-form-item>
         <el-form-item label="血型">
           <el-select v-model="formData.bloodType" class="inputW2">
-            <el-option
-              v-for="item in EmployeeEnum.bloodType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
+            <el-option v-for="item in EmployeeEnum.bloodType" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="户籍所在地">
@@ -329,44 +314,56 @@ export default {
     this.getPersonal()
   },
   methods: {
-
     async getUser() {
       this.userInfo = await getUserDetailById(this.userId)
+      // 注意表单数据的回显, 是用 userInfo 对象,但是头像的回显是用上传组件fileList
+      // 这里注意不能直接改数组里面的一个元素, vue 是不知道发生了改变
       if (this.userInfo.staffPhoto) {
         this.$refs.userInfoImage.fileList = [
           { url: this.userInfo.staffPhoto }
         ]
       }
     },
-
     async saveUser() {
       const fileList = this.$refs.userInfoImage.fileList
+      // 判断有图片, 而且图片上传还没结束
+      // 确认所有图片都上传完毕再保存
       if (fileList.some(item => item.status !== 'success')) {
-        this.$message.error('请等待图片上传完成')
+        this.$message.error('请稍等图片上传完毕')
         return
       }
       // 用户点击第一个表单保存时触发, 将修改过的数据用编辑 api 发到后端
-      await saveUserDetailById({ ...this.userInfo, staffPhoto: fileList[0] ? fileList[0].url : '' })
+      // 注意用户新信息, 头像地址不在表单userInfo里面
+      // 而是在上传组件fileList当中
+      await saveUserDetailById({
+        ...this.userInfo,
+        staffPhoto: fileList[0] ? fileList[0].url : ''
+      })
       this.$message.success('修改成功')
     },
 
     async getPersonal() {
+      // 回显表单
       this.formData = await getPersonalDetail(this.userId)
+      // 回显上传组件
       if (this.formData.staffPhoto) {
         this.$refs.formDataImage.fileList = [
           { url: this.formData.staffPhoto }
         ]
       }
     },
-
     async savePersonal() {
       const fileList = this.$refs.formDataImage.fileList
+      // 确认所有图片都上传完毕再保存
       if (fileList.some(item => item.status !== 'success')) {
-        this.$message.error('请等待图片上传完成')
+        this.$message.error('请稍等图片上传完毕')
         return
       }
       // 用户点击第二个表单最下方的保存时触发, 将修改过的数据发回到后端
-      await updatePersonal({ ...this.formData, staffPhoto: fileList[0] ? fileList[0].url : '' })
+      await updatePersonal({
+        ...this.formData,
+        staffPhoto: fileList[0] ? fileList[0].url : ''
+      })
       this.$message.success('修改成功')
     }
   }
