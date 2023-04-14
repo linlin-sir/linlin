@@ -1,5 +1,5 @@
 <template>
-  <h2>工资</h2>
+  <ImageUpload />
 </template>
 
 <script>

@@ -1,5 +1,12 @@
 <template>
   <div class="user-info">
+    <el-row type="flex" justify="end">
+      <el-tooltip content="打印个人基本信息">
+        <router-link :to="`/employees/print/${userId}?type=personal`">
+          <i class="el-icon-printer" />
+        </router-link>
+      </el-tooltip>
+    </el-row>
     <!-- 个人信息 -->
     <el-form label-width="220px">
       <!-- 工号 入职时间 -->
@@ -57,6 +64,7 @@
       <el-row class="inline-info">
         <el-col :span="12">
           <el-form-item label="员工头像">
+            <ImageUpload ref="userInfoImage" />
             <!-- 放置上传图片 -->
 
           </el-form-item>
@@ -91,6 +99,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <ImageUpload ref="formDataImage" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -320,21 +329,44 @@ export default {
     this.getPersonal()
   },
   methods: {
+
     async getUser() {
       this.userInfo = await getUserDetailById(this.userId)
+      if (this.userInfo.staffPhoto) {
+        this.$refs.userInfoImage.fileList = [
+          { url: this.userInfo.staffPhoto }
+        ]
+      }
     },
+
     async saveUser() {
+      const fileList = this.$refs.userInfoImage.fileList
+      if (fileList.some(item => item.status !== 'success')) {
+        this.$message.error('请等待图片上传完成')
+        return
+      }
       // 用户点击第一个表单保存时触发, 将修改过的数据用编辑 api 发到后端
-      await saveUserDetailById(this.userInfo)
+      await saveUserDetailById({ ...this.userInfo, staffPhoto: fileList[0] ? fileList[0].url : '' })
       this.$message.success('修改成功')
     },
 
     async getPersonal() {
       this.formData = await getPersonalDetail(this.userId)
+      if (this.formData.staffPhoto) {
+        this.$refs.formDataImage.fileList = [
+          { url: this.formData.staffPhoto }
+        ]
+      }
     },
+
     async savePersonal() {
+      const fileList = this.$refs.formDataImage.fileList
+      if (fileList.some(item => item.status !== 'success')) {
+        this.$message.error('请等待图片上传完成')
+        return
+      }
       // 用户点击第二个表单最下方的保存时触发, 将修改过的数据发回到后端
-      await updatePersonal(this.formData)
+      await updatePersonal({ ...this.formData, staffPhoto: fileList[0] ? fileList[0].url : '' })
       this.$message.success('修改成功')
     }
   }

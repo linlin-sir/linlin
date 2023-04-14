@@ -4,6 +4,7 @@
 import Vue from 'vue'
 import PageTools from '@/components/PageTools'
 import UploadExcel from '@/components/UploadExcel'
+import ImageUpload from '@/components/ImageUpload'
 
 // 插件创建方法一, 暴露函数
 // function init() {
@@ -21,5 +22,6 @@ export default {
   install() {
     Vue.component('PageTools', PageTools)
     Vue.component('UploadExcel', UploadExcel)
+    Vue.component('ImageUpload', ImageUpload)
   }
 }

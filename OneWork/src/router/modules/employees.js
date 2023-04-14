@@ -22,6 +22,11 @@ export default {
       path: 'detail/:id',
       component: () => import('@/views/employees/detail.vue'),
       hidden: true
+    },
+    {
+      path: 'print/:id', // 二级默认路由
+      component: () => import('@/views/employees/print'), // 按需加载
+      hidden: true
     }
   ]
 }

@@ -1,5 +1,12 @@
 <template>
   <div class="job-info">
+    <el-row type="flex" justify="end">
+      <el-tooltip content="打印岗位信息">
+        <router-link :to="`/employees/print/${userId}?type=job`">
+          <i class="el-icon-printer" />
+        </router-link>
+      </el-tooltip>
+    </el-row>
     <!-- 基础信息 -->
     <el-form label-width="220px">
       <div class="block">
@@ -8,13 +15,13 @@
           <el-input v-model="formData.post" placeholder="请输入" class="inputW" />
         </el-form-item>
         <!-- <el-form-item label="转正日期">
-              <el-date-picker
-                v-model="formData.dateOfCorrection"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd"
-              />
-            </el-form-item> -->
+          <el-date-picker
+            v-model="formData.dateOfCorrection"
+            type="date"
+            placeholder="选择日期"
+            value-format="yyyy-MM-dd"
+          />
+        </el-form-item> -->
         <el-form-item label="转正状态">
           <el-select v-model="formData.stateOfCorrection" placeholder="请选择" disabled>
             <el-option
@@ -32,12 +39,12 @@
         </el-form-item>
         <el-form-item label="汇报对象">
           <el-select v-model="formData.reportId" filterable placeholder="请选择" class="inputW">
-            <el-option v-for="item in depts" :key="item.id" :label="item.username" :value="item.id" />
+            <el-option v-for="item in userList" :key="item.id" :label="item.username" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="HRBP">
           <el-select v-model="formData.hrbp" filterable placeholder="请选择" class="inputW">
-            <el-option v-for="item in depts" :key="item.id" :label="item.username" :value="item.id" class="inputW" />
+            <el-option v-for="item in userList" :key="item.id" :label="item.username" :value="item.id" class="inputW" />
           </el-select>
         </el-form-item>
         <el-form-item class="formInfo" label="调整司龄(天)：">
@@ -159,46 +166,37 @@
 </template>
 
 <script>
+import { getJobDetail, updateJob, getEmployeeSimple } from '@/api/employees'
 import EmployeeEnum from '@/constant/employees'
-
 export default {
   data() {
     return {
       userId: this.$route.params.id,
-      depts: [],
       EmployeeEnum,
-      formData: {
-        adjustmentAgedays: '', // 调整司龄天
-        adjustmentOfLengthOfService: '', // 调整工龄天
-        closingTimeOfCurrentContract: '', // 现合同结束时间
-        companyId: '', // 公司ID
-        contractDocuments: '', // 合同文件
-        contractPeriod: '', // 合同期限
-        correctionEvaluation: '', //  转正评价
-        currentContractStartTime: '', // 现合同开始时间
-        firstContractTerminationTime: '', // 首次合同结束时间
-        hrbp: '', // HRBP
-        initialContractStartTime: '', // 首次合同开始时间
-        otherRecruitmentChannels: '', // 其他招聘渠道
-        post: '', // 岗位
-        rank: null, // 职级
-        recommenderBusinessPeople: '', // 推荐企业人
-        recruitmentChannels: '', // 招聘渠道
-        renewalNumber: '', // 续签次数
-        reportId: '', // 汇报对象
-        reportName: null, // 汇报对象
-        socialRecruitment: '', // 社招校招
-        stateOfCorrection: '', // 转正状态
-        taxableCity: '', // 纳税城市
-        userId: '', // 员工ID
-        workMailbox: '', // 工作邮箱
-        workingCity: '', // 工作城市
-        workingTimeForTheFirstTime: '' // 首次参加工作时间
-      }
+      formData: {},
+      userList: []
     }
   },
+  created() {
+    // 回显数据
+    this.getJob()
+    // 获取员工简单信息列表, 用来生成选项下拉菜单
+    this.getEmployeeSimple()
+  },
   methods: {
-    saveJob() {}
+    // 获取员工简单列表
+    async getEmployeeSimple() {
+      this.userList = await getEmployeeSimple()
+    },
+    async getJob() {
+      // 获取岗位信息赋值给表单
+      this.formData = await getJobDetail(this.userId)
+    },
+    // 更新岗位信息
+    async saveJob() {
+      await updateJob(this.formData)
+      this.$message.success('修改成功')
+    }
   }
 }
 </script>

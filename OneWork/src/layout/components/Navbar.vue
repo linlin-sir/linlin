@@ -68,7 +68,7 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
   background-image: -webkit-linear-gradient(left, #3d6df8, #5b8cff);
 
   .hamburger-container {
@@ -77,7 +77,7 @@ export default {
     float: left;
     cursor: pointer;
     transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
       background: rgba(0, 0, 0, .025)
@@ -129,35 +129,38 @@ export default {
           border-radius: 15px;
           vertical-align: middle;
 
-   }
-   .name {
+        }
+
+        .name {
           color: #fff;
           vertical-align: middle;
-          margin-left:5px;
-   }
-   .user-dropdown {
-           color: #fff;
-    }
+          margin-left: 5px;
+        }
+
+        .user-dropdown {
+          color: #fff;
+        }
       }
     }
   }
+
   .app-breadcrumb {
-  display: inline-block;
-  font-size: 18px;
-  line-height: 50px;
-  margin-left: 10px;
-  color: #ffffff;
-  cursor: text;
-  .breadBtn {
-    background: #84a9fe;
-    font-size: 14px;
-    padding: 0 10px;
     display: inline-block;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 10px;
-    margin-left: 15px;
+    font-size: 18px;
+    line-height: 50px;
+    margin-left: 10px;
+    color: #ffffff;
+    cursor: text;
+
+    .breadBtn {
+      background: #84a9fe;
+      font-size: 14px;
+      padding: 0 10px;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 10px;
+      margin-left: 15px;
+    }
   }
-}
-}
-</style>
+}</style>
