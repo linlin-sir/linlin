@@ -142,7 +142,6 @@ export default {
       }
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList)
     },
     updateData() {
       this.init()

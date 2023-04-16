@@ -52,8 +52,6 @@ export default {
     onRemove(file, newFileList) {
       // 虽然删除图片时,没有自动帮你处理数组删除,
       // 但是回想处理过后的数据作为参数交给你
-      console.log(file)
-      console.log(newFileList)
       this.fileList = newFileList
     },
     onChange(file, newFileList) {
@@ -61,7 +59,6 @@ export default {
       this.fileList = newFileList
     },
     beforeUpload(file) {
-      console.log('上传前验证', file)
       // 验证图片大小和格式
       // 如果有问题, 通过返回 false 可以阻止上传动作
 
@@ -85,7 +82,6 @@ export default {
     upload({ file }) {
       // 这个函数可以接收到当前上传请求的各项配置
       // params.file 才是正在上传的图片本地
-      console.log('上传文件', file)
 
       // 使用腾讯云开发工具库
       cos.putObject({
@@ -98,8 +94,6 @@ export default {
         if (err) {
           console.log(err)
         } else {
-          console.log('上传成功')
-          console.log(data)
           // 这里已经上传完毕, 图片在线公网地址在 data.Location
           // 如果限定只有一张图片, 不去查找而是直接用第0张也是可以的啦
           // const currentImg = this.fileList[0]

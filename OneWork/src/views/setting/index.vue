@@ -162,7 +162,6 @@ export default {
     this.form = await getCompanyInfo(this.$store.getters.companyId)
     this.getRoleList()
     const res = await getPermissionList()
-    console.log('权限列表', res)
     this.permList = listToTree(res, '0')
   },
   methods: {

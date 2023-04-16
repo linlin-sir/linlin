@@ -2,7 +2,7 @@
   <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <el-card class="hr-block">
-        <el-table :data="list" style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
+        <el-table :data="list" style="width: 100%" :default-sort="{ prop: 'date', order: 'descending' }">
           <el-table-column type="index" width="50" label="序号" />
           <el-table-column prop="username" label="姓名" sortable />
           <el-table-column prop="mobile" label="手机" sortable />
@@ -16,7 +16,11 @@
           <el-table-column prop="providentFundBase" label="公积金基数" />
           <el-table-column label="操作">
             <template v-slot:default="obj">
-              <el-button type="text" size="mini" @click="$router.push(`/social_securitys/detail/${obj.row.id}`)">查看详情</el-button>
+              <el-button
+                type="text"
+                size="mini"
+                @click="$router.push(`/social_securitys/detail/${obj.row.id}`)"
+              >查看详情</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -37,11 +41,9 @@
 
 <script>
 import { getSocialList, getSettings } from '@/api/social'
-import SocialTool from './components/social-tool'
 
 export default {
   name: 'SocialTableIndex',
-  components: { SocialTool },
   data() {
     return {
       list: [],
@@ -69,7 +71,7 @@ export default {
     goDetail(row, event, column) {
       this.$router.push({ path: 'detail' })
     },
-    async  getSocialList() {
+    async getSocialList() {
       try {
         const { rows, total } = await getSocialList({ ...this.page, ...this.selectParams })
         this.list = rows // 列表数据
@@ -108,5 +110,4 @@ export default {
   margin-bottom: 15px;
   border: 1px solid #ebeef5;
 }
-
 </style>
