@@ -34,7 +34,12 @@ export default {
   computed: {
     ...mapGetters(['sidebar']),
     routes() {
-      return this.$router.options.routes
+      // 花裤衩是拿到路由实例配置的routes数组, 进行遍历,形成了菜单
+      console.log('this.$router.options.routes', this.$router.options.routes)
+      // return this.$router.options.routes
+      // 不能用所有路由数据, 需要用自己拼接过的, 静态路由+筛选后的动态路由数组
+      console.log(this.$store.state.permission.routes)
+      return this.$store.state.permission.routes
     },
     activeMenu() {
       const route = this.$route

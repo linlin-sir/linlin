@@ -8,6 +8,8 @@ router.beforeEach(async(to, form, next) => {
     } else {
       if (!store.state.user.userInfo.userId) {
         await store.dispatch('user/getUserInfo')
+        const menus = store.state.user.userInfo.roles.menus
+        store.dispatch('permission/filterRoutes', menus)
       }
       next()
     }

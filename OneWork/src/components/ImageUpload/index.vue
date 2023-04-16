@@ -36,7 +36,7 @@ var COS = require('cos-js-sdk-v5')
 
 // SECRETID 和 SECRETKEY 请登录 https://console.cloud.tencent.com/cam/capi 进行查看和管理
 var cos = new COS({
- SecretId: 'AKIDxiKueEZfZIsJa2LTUIrDOYhkfPxQo6Kq',
+  SecretId: 'AKIDxiKueEZfZIsJa2LTUIrDOYhkfPxQo6Kq',
   SecretKey: 'VqacaWUYXVZP7oZCtRp0CIRdigcfeYQ7'
 })
 // 小写cos实例就是用来上传的工具了
