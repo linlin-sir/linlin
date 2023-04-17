@@ -64,9 +64,12 @@ Vue.directive('fiximg', {
     el.src = el.src || img
   }
 })
+
+import i18n from './lang'
 new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })

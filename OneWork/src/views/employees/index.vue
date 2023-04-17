@@ -35,7 +35,7 @@
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
               <el-button type="text" size="small" @click="showRoleDialog(row.id)">角色</el-button>
-              <el-button v-if="checkPerm('deleteUser')" type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
+              <el-button v-if="checkPerm('delUser')" type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -161,7 +161,7 @@ export default {
       })
     },
 
-    async removeEmployee(id) {
+    async delEmployee(id) {
       await removeEmployee(id)
       this.$message.success('删除成功')
       this.loadPage()
