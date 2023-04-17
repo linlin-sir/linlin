@@ -43,6 +43,12 @@ for (const key in MyFilters) {
   Vue.filter(key, MyFilters[key])
 }
 
+// 混入的写法
+// 引入一个跟 vue 组件配置规则相同的对象
+import myMixin from '@/mixin'
+Vue.mixin(myMixin)
+// 于是所有的vue组件就一起拥有了你这个对象的配置
+
 Vue.config.productionTip = false
 import img from '@/assets/common/head.jpg'
 Vue.directive('fiximg', {

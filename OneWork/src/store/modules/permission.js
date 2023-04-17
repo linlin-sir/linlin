@@ -14,6 +14,7 @@ const actions = {
   filterRoutes(context, menus) {
     const routes = asyncRoutes.filter(item => menus.includes(item.name))
     context.commit('setRoutes', routes)
+    return routes
   }
 }
 export default {

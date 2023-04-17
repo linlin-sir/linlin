@@ -1,5 +1,6 @@
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { resetRouter } from '@/router'
 const state = {
   token: getToken() || '',
   userInfo: {}
@@ -19,7 +20,7 @@ const mutations = {
     state.userInfo = { ...userInfo } // 用 浅拷贝的方式去赋值对象 因为这样数据更新之后，才会触发组件的更新
   },
   // 删除用户信息
-  reomveUserInfo(state) {
+  removeUserInfo(state) {
     state.userInfo = {}
   }
 }
@@ -50,6 +51,7 @@ const actions = {
     // 这里就没有异步的意思
     context.commit('removeToken')
     context.commit('removeUserInfo')
+    resetRouter()
   }
 }
 
