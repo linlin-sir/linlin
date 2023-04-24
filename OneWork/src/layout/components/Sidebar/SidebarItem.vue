@@ -3,7 +3,8 @@
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+          <!-- 这里的语言包是经过设计的,每个页面的翻译数据在 route 对象下, 当前的路由name属性里面, 比如员工的翻译就应该是 $t('route.employees') -->
+          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="$t('route.' + item.name )" />
         </el-menu-item>
       </app-link>
     </template>

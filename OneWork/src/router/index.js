@@ -47,12 +47,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    name: 'dashboard',
     path: '/',
     component: Layout,
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
@@ -81,7 +81,8 @@ export const asyncRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
+  base: 'linlin',
   scrollBehavior: () => ({ y: 0 }), // 管理滚动行为 如果出现滚动 切换就让 让页面回到顶部
   routes: constantRoutes // 临时合并所有的路由
 })

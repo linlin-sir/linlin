@@ -6,14 +6,17 @@
 </template>
 
 <script>
-import * as echarts from 'echarts'
+import * as echarts from 'echarts/core'
+import { RadarChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
+
+echarts.use([RadarChart, CanvasRenderer])
 export default {
   // created() {
   //   需要写在 mounted 才能够获取到 dom
   //   console.log(this.$refs.echarts)
   // }
   mounted() {
-    console.log(this.$refs.echarts)
     // 使用第三方库初始化实例
     const myChart = echarts.init(this.$refs.echarts)
 
