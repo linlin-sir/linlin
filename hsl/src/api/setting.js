@@ -43,3 +43,12 @@ export function deleteRole(id) {
     method: 'delete'
   })
 }
+
+// 给角色分配权限
+export function assignPerm(data) {
+  return request({
+    url: '/sys/role/assignPrem',
+    method: 'put',
+    data
+  })
+}

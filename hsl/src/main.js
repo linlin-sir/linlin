@@ -14,6 +14,16 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import myCom from './components/myComs'
+Vue.use(myCom)
+
+import * as myFilters from '@/filters'
+// 2. 遍历所有的函数
+for (const key in myFilters) {
+  // Vue.filter(key, value)
+  // 3. 每遍历一个, 就注册一个
+  Vue.filter(key, myFilters[key])
+}
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

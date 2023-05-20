@@ -41,7 +41,7 @@ export default {
     },
     nodeData: {
       type: Object,
-      require: true
+      required: true
     }
   },
   data() {
