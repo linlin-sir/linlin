@@ -1,33 +1,24 @@
 <script setup>
-import { ref } from 'vue'
-const list = ref(['金', '木', '水', '火', '土'])
-const value = ref('')
-const addlist = () => {
-  list.value.push(value.value)
-  value.value = ''
+import HelloWorld from './components/HelloWorld.vue';
+import { provide, ref } from 'vue';
+const b = ref(100)
+const unpdatab = () => {
+  b.value++
 }
-const dellist = (index) => {
-   list.value.splice(index,1)
-}
+provide('b', b)
+provide('unpdatab', unpdatab)
+
+
 </script>
 
 <template>
-  <input type="text" v-model="value">
-  <button @click="addlist">添加</button>
-  <div>
-    <ul>
-      <li v-for="(item,index) in list" :key="item" @click="dellist(index)">{{ item }} </li>
-    </ul>
-  </div>
+  <HelloWorld></HelloWorld>
 </template>
 
-<style scoped>
-input {
-  height: 30px;
-  outline: none;
-}
-
-li {
-  list-style: none;
+<style lang='scss'>
+.box {
+  padding: 20px;
+  margin: 10px;
+  border: 1px solid sandybrown;
 }
 </style>
